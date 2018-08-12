@@ -1,0 +1,35 @@
+﻿@model ERPWeb.Core.Dto.AddOrderRequest
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div>
+       @using (Html.BeginForm("save", "order"))
+       {
+           <label>orderNo</label>
+           @Html.TextBoxFor(m =>m.OrderNo)
+           <br/>
+           
+           <label>CustomerId</label>
+           @Html.TextBoxFor(m =>m.CustomerId)
+           <br/>
+           
+           <label>StoreId</label>
+           @Html.TextBoxFor(m =>m.StoreId)
+           <br/>
+           
+           <label>StoreOwnerId</label>
+           @Html.TextBoxFor(m =>m.StoreOwnerId)
+           <br/>
+
+           <input type="submit" value="提交"/>
+       }
+
+    </div>
+</body>
+</html>
