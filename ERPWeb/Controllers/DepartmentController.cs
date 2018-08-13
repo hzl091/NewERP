@@ -53,7 +53,6 @@ namespace ERPWeb.Controllers
                         ParentId = data.ParentId,
                         Remark = data.Remark
                     });
-                    _departmentRepository.Save();
                     _uow.Commit();
                     return ResultObject.Success();
                 } 
