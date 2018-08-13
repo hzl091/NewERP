@@ -1,0 +1,95 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="~/Content/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/themes/icon.css">
+    <script type="text/javascript" src="~/Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.easyui-1.4.5.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+<div>
+    <input type="button" value="ok" id="btn" onclick="newDep();"/>
+    <div id="dlg" class="easyui-dialog" style="width: 400px; height: 280px; padding: 10px 20px"
+         closed="true" buttons="#dlg-buttons">
+        <div class="ftitle">部门信息</div>
+        <form id="fm" method="post" novalidate>
+            <div class="fitem">
+                <label>部门名字:</label>
+                <input name="request.data.name" class="easyui-textbox" required="true">
+            </div>
+            <div class="fitem">
+                <label>上级部门:</label>
+                <input name="request.data.parentid" class="easyui-textbox" required="true">
+            </div>
+            <div class="fitem">
+                <label>部门备注:</label>
+                <input name="request.data.remark" class="easyui-textbox" required="true">
+            </div>
+        </form>
+    </div>
+    <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconcls="icon-ok" onclick="saveOrder()" style="width: 90px">Save</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconcls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width: 90px">Cancel</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $.fn.serializeObject = function () {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function () {
+            if (o[this.name] !== undefined) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+
+
+
+    var url;
+    function newDep() {
+        $('#dlg').dialog('open').dialog('setTitle', '添加部门');
+        $('#fm').form('clear');
+        url = '/department/save';
+    }
+
+    function saveOrder() {
+        $('#fm').form('submit', {
+            url: url,
+            onSubmit: function () {
+                return $(this).form('validate');
+            },
+            success: function (result) {
+                var result = eval('(' + result + ')');
+                if (result.errorMsg) {
+                    $.messager.show({
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
+                } else {
+                    $('#dlg').dialog('close');		// close the dialog
+                    $('#dg').datagrid('reload');	// reload the user data
+                }
+            }
+        });
+
+    }
+
+
+</script>
+</body>
+</html>

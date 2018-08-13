@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using ERPWeb.Core.Domain;
+using ERPWeb.Core.Domain.System;
 using MyFX.Repository.Ef;
 
 namespace ERPWeb.Core.Repository
@@ -16,8 +17,6 @@ namespace ERPWeb.Core.Repository
 
         }
 
-        public DbSet<Order> Orders { get; set; }
-
         /// <summary>
         /// OnModelCreating
         /// </summary>
@@ -29,6 +28,7 @@ namespace ERPWeb.Core.Repository
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Conventions.Remove<DatabaseGeneratedAttributeConvention>();
 
+            modelBuilder.Entity<Department>().ToTable("department");
             modelBuilder.Entity<Order>().ToTable("ORDERS");
             //自增列需要在数据库建序列+触发器配合生成
             modelBuilder.Entity<Order>().HasKey(o => o.Id);
